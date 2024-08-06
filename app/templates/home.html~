@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-white">Welcome to Jua Economy</h1>
+        <p class="text-white">Your Source for Real-Time Economic Data and Insights on Kenya</p>
+        <button class="btn btn-danger" style="margin: 10px;">Explore Data</button>
+        <button class="btn btn-danger" style="margin: 10px;">Learn More</button>
+{& endblock %}

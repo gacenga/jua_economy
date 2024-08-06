@@ -1,0 +1,56 @@
+html body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.container-fluid a img {
+    height: 10vh;
+    width: auto;
+    border-radius: 15px;
+}
+
+.nav-link {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    padding-bottom: 5px; /* Add some space for the underline */
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ff6347; /* Change this to the color you want */
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.nav-link:hover {
+    color: #ff6347; /* Change this to the hover color you want */
+}
+
+.navbar-toggler {
+    border: none !important; /* Remove default border */
+    background-color: transparent !important; /* Ensure background is transparent */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+#content {
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+ }
