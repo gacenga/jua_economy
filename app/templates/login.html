@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+    <form action="{{ url_for('login') }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-floating mb-3" style="width: 25vw;">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", id="floatingInput", placeholder="name@example.com") }}
+        </div>
+        <div class="form-floating mb-3" style="width: 25vw;">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", id="floatingPassword", placeholder="Password") }}
+        </div>
+        <div class="form-check mb-3" style="width: 25vw;">
+            {{ form.remember.label(class="form-check-label") }}
+            {{ form.remember(class="form-check-input") }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <p class="mt-3">
+            <a href="{{ url_for('register') }}">Sign Up</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

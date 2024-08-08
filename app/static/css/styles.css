@@ -54,3 +54,19 @@ html body {
     white-space: normal;
     max-width: 100%;
  }
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Adjust size */
+    height: 40px; /* Adjust size */
+    border-radius: 50%;
+    background-color: #007bff; /* Background color */
+    color: #fff; /* Text color */
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px; /* Vertically center text */
+    font-size: 1.2rem; /* Adjust font size */
+    transition: background-color 0.3s;
+}

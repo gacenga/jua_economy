@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+        <form action="{{ url_for('register') }}" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-floating mb-3" style="width: 25vw;">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control floating-input", id="floatingName", placeholder="Full Name") }}
+            </div>
+            <div class="form-floating mb-3" style="width: 25vw;">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control floating-input", id="floatingEmail", placeholder="name@example.com") }}
+            </div>
+            <div class="form-floating mb-3" style="width: 25vw;">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control floating-input", id="floatingPassword", placeholder="Password") }}
+            </div>
+            <div class="form-floating mb-3" style="width: 25vw;">
+                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password(class="form-control floating-input", id="floatingConfirmPassword", placeholder="Confirm Password") }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            <p class="mt-3">
+                <a href="{{ url_for('login') }}">Already have an account? Sign in here.</a>
+            </p>
+        </form>
+    </div>
+
+
+{% endblock %}
