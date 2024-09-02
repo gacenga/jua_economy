@@ -1,0 +1,63 @@
+{% extends "b_dashboard.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Trade Balance</h1>
+    <canvas id="tradeBalanceChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('tradeBalanceChart').getContext('2d');
+    const tradeBalanceChart = new Chart(ctx, {
+        type: 'line', // Line chart
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Trade Balance (in Billion USD)',
+                data: {{ data|safe }},
+                backgroundColor: 'rgba(0, 100, 0, 0.2)',
+                borderColor: 'rgba(0, 100, 0, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Trade Balance in Billion USD'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.raw.toLocaleString();
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+</script>
+{% endblock %}

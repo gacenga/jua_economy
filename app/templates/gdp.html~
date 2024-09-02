@@ -1,0 +1,66 @@
+{% extends "b_dashboard.html" %}
+
+{% block content %}
+<div class="container">
+    <canvas id="gdpChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Ensure labels and data are correctly passed from your Flask route
+    const labels = {{ labels|tojson }};
+    const data = {{ data|tojson }};
+
+    const ctx = document.getElementById('gdpChart').getContext('2d');
+    const gdpChart = new Chart(ctx, {
+        type: 'bar', // Bar chart
+        data: {
+            labels: labels, // Years or labels for x-axis
+            datasets: [{
+                label: 'GDP (in Billion USD)',
+                data: data, // GDP values for each year
+                backgroundColor: 'rgba(0, 100, 0, 0.7)', // Bar color
+                borderColor: 'rgba(0, 100, 0, 1)', // Bar border color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'GDP in Billion USD'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.raw.toLocaleString();
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1500, // Smooth animation duration
+                easing: 'easeInOutQuart' // Easing function for a smooth transition
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -6,57 +6,182 @@
     <title>{% block title %}Jua Economy{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+      .modal-content {
+    border-radius: 0.5rem;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-body {
+    font-size: 1rem;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.modal-body p {
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+</style>
 </head>
 <body style="background-color: #001d00;">
     <nav class="navbar navbar-expand-lg bg-dark fixed-top">
         <div class="container-fluid">
-              <a class="navbar-brand">
+            <a class="navbar-brand">
                 <img src="{{ url_for('static', filename='images/WhatsApp_Image_2024-08-06_at_14.12.08_15304616.jpg') }}" class="navbar-header">
-              </a>
-          <button class="navbar-toggler btn btn-light-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon btn-white"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Pricing</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Disabled</a>
-              </li>
-	      {% if current_user.is_authenticated %}
-	      <li class="nav-item">
-		<a class="nav-link user-icon" href="{{ url_for('logout') }}">
-		  Log Out
-		</a>
-	      </li>
-              <li class="nav-item">
-                   <a class="nav-link user-icon">
-                        {{ current_user.username[0].upper() }}
-                   </a>
-              </li>  
-                {% else %}
+            </a>
+            <button class="navbar-toggler btn btn-light-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon btn-white"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="{{ url_for('login') }}">Sign In</a>
+                        <a class="nav-link active text-white" aria-current="page" href="{{ url_for('home') }}">Home</a>
                     </li>
-                {% endif %}
-            </ul>
-          </div>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('gdp') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Administrator</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link user-icon text-white font-weight-bold" href="#" data-bs-toggle="modal" data-bs-target="#userInfoModal">
+                            {{ current_user.username[0].upper() }}
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <button class="btn text-warning" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</button>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-      </nav>
+    </nav>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="alert-container">
+                            {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                    <form action="{{ url_for('home') }}" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="form-floating mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {{ form.email(class="form-control", id="floatingInput", placeholder="name@example.com") }}
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.password.label(class="form-label") }}
+                            {{ form.password(class="form-control", id="floatingPassword", placeholder="Password") }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.remember.label(class="form-check-label") }}
+                            {{ form.remember(class="form-check-input") }}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <p class="mt-3">
+                            <a href="{{ url_for('register') }}">Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Info Modal -->
+    <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="userInfoModalLabel">User Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-3">
+                        <img src="https://via.placeholder.com/80" class="rounded-circle" alt="User Avatar">
+                    </div>
+                    <div>
+                        <p class="mb-1"><strong>Name:</strong> <span id="userName" class="fw-bold"></span></p>
+                        <p><strong>Email:</strong> <span id="userEmail" class="fw-bold"></span></p>
+                    </div>
+                </div>
+		 <a href="{{ url_for('logout') }}" class="btn btn-warning mt-3 w-100">Sign Out</a>
+                <a href="{{ url_for('manage_account') }}" class="btn btn-primary mt-3 w-100">Manage Account</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
     <div class="text-center" style="width: 100vw; height: 100vh; margin-top: 170px" id="content">
-      {% block content %}
-      
-      {% endblock %}
-      </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- JavaScript for loading user info into the modal -->
+    <script>
+    $(document).ready(function() {
+        $('#userInfoModal').on('show.bs.modal', function(event) {
+            $.ajax({
+                type: 'GET',
+                url: '/get-user-info',
+                success: function(data) {
+                    if (data.name && data.email) {
+                        $('#userName').text(data.name);
+                        $('#userEmail').text(data.email);
+                    } else {
+                        $('#userName').text('No data available');
+                        $('#userEmail').text('No data available');
+                    }
+                },
+                error: function() {
+                    $('#userName').text('Error loading data');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

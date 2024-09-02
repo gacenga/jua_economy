@@ -1,0 +1,171 @@
+import requests
+
+class EconomicDataFetcher:
+    BASE_URL = "https://api.worldbank.org/v2/country/"
+
+    def __init__(self, country_code="KEN", start_year=2000, end_year=2023):
+        self.country_code = country_code
+        self.start_year = start_year
+        self.end_year = end_year
+
+    def fetch_gdp_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/NY.GDP.MKTP.CD?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_gdp_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_gdp_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            gdp_value = item['value']
+            processed_data.append({
+                "year": year,
+                "gdp": gdp_value
+            })
+        return processed_data
+
+    def fetch_trade_balance_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/NE.EXP.GNFS.CD?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_trade_balance_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_trade_balance_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            trade_balance_value = item['value']
+            processed_data.append({
+                "year": year,
+                "trade_balance": trade_balance_value
+            })
+        return processed_data
+
+    def fetch_unemployment_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/SL.UEM.TOTL.ZS?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_unemployment_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_unemployment_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            unemployment_value = item['value']
+            processed_data.append({
+                "year": year,
+                "unemployment_rate": unemployment_value
+            })
+        return processed_data
+
+    def fetch_govt_spending_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/GC.XPN.TOTL.CD?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_govt_spending_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_govt_spending_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            govt_spending_value = item['value']
+            processed_data.append({
+                "year": year,
+                "govt_spending": govt_spending_value
+            })
+        return processed_data
+
+    def fetch_inflation_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/FP.CPI.TOTL?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_inflation_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_inflation_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            inflation_value = item['value']
+            processed_data.append({
+                "year": year,
+                "inflation_rate": inflation_value
+            })
+        return processed_data
+
+    def fetch_interest_rates_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/FR.INR.RINR?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_interest_rates_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_interest_rates_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            interest_rate_value = item['value']
+            processed_data.append({
+                "year": year,
+                "interest_rate": interest_rate_value
+            })
+        return processed_data
+
+    def fetch_exchange_rates_data(self):
+        url = f"{self.BASE_URL}{self.country_code}/indicator/PA.NUS.FCRF?date={self.start_year}:{self.end_year}&format=json"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if len(data) > 1:
+                return self.process_exchange_rates_data(data[1])
+            else:
+                return []
+        else:
+            response.raise_for_status()
+
+    def process_exchange_rates_data(self, data):
+        processed_data = []
+        for item in data:
+            year = item['date']
+            exchange_rate_value = item['value']
+            processed_data.append({
+                "year": year,
+                "exchange_rate": exchange_rate_value
+            })
+        return processed_data

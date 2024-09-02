@@ -1,0 +1,63 @@
+{% extends "b_dahsboard.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Government Spending</h1>
+    <canvas id="govSpendingChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('govSpendingChart').getContext('2d');
+    const govSpendingChart = new Chart(ctx, {
+        type: 'bar', // Bar chart
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Government Spending (in Billion USD)',
+                data: {{ data|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Government Spending in Billion USD'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.raw.toLocaleString();
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+</script>
+{% endblock %}

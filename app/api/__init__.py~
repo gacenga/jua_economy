@@ -1,0 +1,13 @@
+from flask import Blueprint, jsonify
+from app.api.economic_data import EconomicDataFetcher
+
+api_bp = Blueprint('api', __name__)
+
+@api_bp.route('/gdp', methods=['GET'])
+def get_gdp_data():
+    fetcher = EconomicDataFetcher()
+    try:
+        gdp_data = fetcher.fetch_gdp_data()
+        return jsonify(gdp_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
