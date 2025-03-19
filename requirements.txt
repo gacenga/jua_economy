@@ -16,3 +16,4 @@ flask_wtf
 flask_login
 flask_migrate
 requests
+email-validator
