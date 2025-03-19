@@ -1,1 +1,2 @@
-web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker jua_economy:app
+web: gunicorn -w 4 jua_economy:app
+
