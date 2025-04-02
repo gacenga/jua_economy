@@ -1,4 +1,4 @@
-***Jua Economy 🌍📊
+***Jua Economy 🌍📊**
 
 Jua Economy is a dynamic web platform providing real-time data visualizations and insights into Kenya's economy. From GDP to inflation rates, trade balances, and employment figures, Jua Economy offers in-depth economic indicators, making complex data accessible and easy to understand.
 
